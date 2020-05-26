@@ -1,11 +1,7 @@
 const express = require('express');
-// 通过body-parser，处理post请求
-const bodyParser = require('body-parser');
+const formidable = require('formidable');
 const app = express();
 const port = 3000;
-
-// 解析对象
-const jsonParser = bodyParser.json();
 
 // 设置跨域访问
 app.all('*', (req, res, next) => {
@@ -37,9 +33,14 @@ app.get('/getData', (req, res) => {
 })
 
 // post方法
-app.post('/postData', jsonParser, (req, res) => {
-  if (!req.body) return res.sendStatus(400);
-  res.send(req.body);
+app.post('/postData', (req, res) => {
+  const form = formidable({ multiples: true });
+
+  form.parse(req, (err, fields, files) => {
+    if (err) res.send(500);
+
+    res.send(fields);
+  })
 })
 
 app.listen(port, () => console.log(`Listening in ${port}`));
