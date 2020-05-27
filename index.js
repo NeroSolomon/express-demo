@@ -1,11 +1,15 @@
 const express = require('express');
 const formidable = require('formidable');
 const mongoose = require('mongoose');
+const Article = require('./models/artices.js');
 const app = express();
 const port = 3000;
 
 // 链接本地数据库
-mongoose.connect('mongodb://127.0.0.1:27017/posts');
+// 第二个参数是为了消除警告
+mongoose.connect('mongodb://127.0.0.1:27017/posts', { useNewUrlParser: true, useUnifiedTopology: true });
+// 消除警告
+mongoose.set('useCreateIndex', true);
 
 // 获取数据库对象
 const db = mongoose.connection;
@@ -55,6 +59,18 @@ app.post('/postData', (req, res) => {
 
   form.parse(req, (err, fields, files) => {
     if (err) res.send(500);
+
+    const postData = {
+      authName: fields.name,
+      title: fields.title,
+      content: fields.content,
+      ctime: Date.now() + ''
+    }
+
+    Article.create(postData, (err, data) => {
+      if (err) throw err;
+      console.log('Post success');
+    })
 
     res.send(fields);
   })
