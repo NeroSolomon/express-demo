@@ -1,7 +1,24 @@
 const express = require('express');
 const formidable = require('formidable');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
+
+// 链接本地数据库
+mongoose.connect('mongodb://127.0.0.1:27017/posts');
+
+// 获取数据库对象
+const db = mongoose.connection;
+
+// 链接成功
+db.on('open', () => {
+  console.log('MongoDB Connection Successed');
+})
+
+// 链接失败
+db.on('error', () => {
+  console.log('MongoDB Connection Error');
+})
 
 // 设置跨域访问
 app.all('*', (req, res, next) => {
