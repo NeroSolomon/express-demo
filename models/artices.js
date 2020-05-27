@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // 声明一个数据集对象，类似collection
 const articleSchema = new Schema({
   authName: {
     type: String,
-    unique: true
+    unique: true,
   },
   title: {
-    type: String
+    type: String,
   },
   content: {
-    type: String
+    type: String,
   },
   ctime: {
-    type: String
-  }
+    type: String,
+  },
 });
 
-module.exports = mongoose.model('articles', articleSchema);
+module.exports = mongoose.model("articles", articleSchema);
