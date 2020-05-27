@@ -1,7 +1,6 @@
 const express = require('express');
-const formidable = require('formidable');
 const mongoose = require('mongoose');
-const Article = require('./models/artices.js');
+const postRouter = require('./routes/post.js');
 const app = express();
 const port = 3000;
 
@@ -45,35 +44,7 @@ app.all('*', (req, res, next) => {
 
 app.get('/', (req, res) => res.send('Hello world'));
 
-// get方法
-app.get('/getData', (req, res) => {
-  // 获得query
-  var result = req.query;
-  // 返回数据
-  res.send(result);
-})
-
-// post方法
-app.post('/postData', (req, res) => {
-  const form = formidable({ multiples: true });
-
-  form.parse(req, (err, fields, files) => {
-    if (err) res.send(500);
-
-    const postData = {
-      authName: fields.name,
-      title: fields.title,
-      content: fields.content,
-      ctime: Date.now() + ''
-    }
-
-    Article.create(postData, (err, data) => {
-      if (err) throw err;
-      console.log('Post success');
-    })
-
-    res.send(fields);
-  })
-})
+// 使用路由句柄
+app.use('/posts', postRouter);
 
 app.listen(port, () => console.log(`Listening in ${port}`));
