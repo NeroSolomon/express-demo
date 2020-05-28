@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const postRouter = require("./routes/post.js");
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // 链接本地数据库
 // 第二个参数是为了消除警告
