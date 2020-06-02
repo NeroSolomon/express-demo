@@ -35,6 +35,22 @@ router.get("/readBufFile", (req, res) => {
   });
 });
 
+// 关闭文件
+router.get("/closeFile", (req, res) => {
+  fs.open(path.resolve(__dirname, "../public/fs-file.txt"), "r+", (err, fd) => {
+    const buf = new Buffer.alloc(1024);
+    fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
+      if (err) {
+        res.send(err);
+      }
+      fs.close(fd, (err) => {
+        if (err) res.send(error);
+        res.send("关闭成功");
+      });
+    });
+  });
+});
+
 // 获取文件信息
 router.get("/statFile", (req, res) => {
   fs.stat(path.resolve(__dirname, "../public/fs-file.txt"), (err, stats) => {
