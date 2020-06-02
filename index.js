@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const postRouter = require("./routes/post.js");
+const fileRouter = require("./routes/file.js");
 const app = express();
 const port = 3001;
 
@@ -55,5 +56,6 @@ app.get("/", (req, res) => res.send("Hello world"));
 
 // 使用路由句柄
 app.use("/posts", postRouter);
+app.use("/files", fileRouter);
 
 app.listen(port, () => console.log(`Listening in ${port}`));
