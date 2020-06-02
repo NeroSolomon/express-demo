@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const formidable = require("formidable");
 const router = express.Router();
 
 // 读文件，使用path来拼接路径
@@ -71,6 +72,20 @@ router.get("/writeFile", (req, res) => {
       res.send("数据写入成功");
     }
   );
+});
+
+// 上传文件并存到本地
+router.post("/postFile", (req, res) => {
+  const form = new formidable.IncomingForm();
+  // 上传目录
+  form.uploadDir = path.resolve(__dirname, "../public/upload");
+  // 保持原有后缀名
+  form.keepExtensions = true;
+
+  form.parse(req, (err, fields, files) => {
+    if (err) res.send(err);
+    res.send("成功上传");
+  });
 });
 
 module.exports = router;
