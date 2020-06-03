@@ -58,4 +58,7 @@ app.get("/", (req, res) => res.send("Hello world"));
 app.use("/posts", postRouter);
 app.use("/files", fileRouter);
 
+// 设置静态目录
+app.use(express.static("public"));
+
 app.listen(port, () => console.log(`Listening in ${port}`));
